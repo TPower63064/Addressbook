@@ -14,12 +14,15 @@ import java.io.BufferedWriter;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.util.Scanner;
+import javafx.scene.control.ListView;
 import java.util.ArrayList;
 public class MockCourseWork
    {
     private static TextField txtFieldUser;
     private static TextField txtFieldStreet;
     private static TextField txtFieldNumber;
+    private static ListView<Address> addListView;
+    private static ArrayList<Address> addArrList = new ArrayList<Address>();
     public static void main(String args[])
     {
         launchFX();
@@ -46,31 +49,37 @@ public class MockCourseWork
         stage.setScene(new Scene(rootPane));
         stage.setWidth(1024);
         stage.setHeight(768);
+        stage.setOnCloseRequest((WindowEvent we) -> terminate());
         stage.show();
+        
+        addListView = new ListView<Address>();
+        addListView.setLayoutX(700);
+        addListView.setLayoutY(50);
+        rootPane.getChildren().add(addListView);
         
         Button view = new Button();
         view.setText ("View current address records");
-        view.setLayoutX(100);
-        view.setLayoutY(100);
+        view.setLayoutX(50);
+        view.setLayoutY(50);
         view.setOnAction((ActionEvent ae) -> printMessage());
         rootPane.getChildren().add(view);
         
         txtFieldUser = new TextField();
-        txtFieldUser.setLayoutX(400);
-        txtFieldUser.setLayoutY(150);
+        txtFieldUser.setLayoutX(50);
+        txtFieldUser.setLayoutY(100);
         txtFieldUser.setPrefWidth(400);
         txtFieldUser.setPromptText("Enter the name of user");
         rootPane.getChildren().add(txtFieldUser);
         
         txtFieldStreet = new TextField();
-        txtFieldStreet.setLayoutX(400);
-        txtFieldStreet.setLayoutY(250);
+        txtFieldStreet.setLayoutX(50);
+        txtFieldStreet.setLayoutY(150);
         txtFieldStreet.setPrefWidth(400);
         txtFieldStreet.setPromptText("Enter the address street");
         rootPane.getChildren().add(txtFieldStreet);
         
         txtFieldNumber = new TextField();
-        txtFieldNumber.setLayoutX(400);
+        txtFieldNumber.setLayoutX(50);
         txtFieldNumber.setLayoutY(200);
         txtFieldNumber.setPrefWidth(400);
         txtFieldNumber.setPromptText("Enter the address number");
@@ -78,13 +87,26 @@ public class MockCourseWork
         
         Button add = new Button();
         add.setText ("Add address");
-        add.setLayoutX(400);
-        add.setLayoutY(300);
+        add.setLayoutX(50);
+        add.setLayoutY(500);
         add.setOnAction((ActionEvent ae) -> printMessage());
         rootPane.getChildren().add(add);
     }
     
-    private static void printMessage () {
+    private static void addNewItem() {
+        String User = txtFieldUser.getText();
+        String Number = txtFieldNumber.getText();
+        String Street = txtFieldStreet.getText();
+        addArrList.add(new Address(User, Number, Street));
+        
+        addListView.getItems().clear();
+        
+        for(Address add : addArrList) {
+            addListView.getItems().add(add);
+        }
+    }
+    
+        private static void printMessage () {
         String message1 = txtFieldUser.getText();
         String message2 = txtFieldNumber.getText();
         String message3 = txtFieldStreet.getText();
@@ -131,12 +153,12 @@ public class MockCourseWork
             
       //  System.out.println("Done");
     
-       }
+       
      
-          {
+          
          //   System.out.println(e.getMessage());
         
-    }
-   }
+    
+   
        
     
